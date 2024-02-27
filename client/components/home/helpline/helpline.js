@@ -1,11 +1,46 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
 import { View, Text,Alert, StyleSheet , TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Use the appropriate icon library
-
+import * as Location from "expo-location";
+import {useDispatch} from 'react-redux'
+import { sendMsg } from "../../../contexts/actions/messages";
 const Helpline = ({navigation}) => {
+  const [latitude, setLatitude] = useState(0);
+  const [longitude, setLongitude] = useState(0);
+  const dispatch = useDispatch();
+  const getCurrentLocation = async () => {
+    try {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status === "granted") {
+        const location = await Location.getCurrentPositionAsync({});
+        const { latitude, longitude } = location.coords;
+        setLatitude(latitude);
+        setLongitude(longitude);
+        console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+      } else {
+        console.log("Location permission not granted");
+      }
+    } catch (error) {
+      console.error("Error getting location: ", error);
+    }
+  };
 
-  const sendAlert = () => {
-    Alert.alert('Sending Alert', 'Messages are being sent to contacts...');
+  useEffect(() => {
+    getCurrentLocation();
+    const intervalId = setInterval(getCurrentLocation, 5000);
+    return () => {
+      clearInterval(intervalId);
+      console.log("Component unmounted");
+    };
+  }, []);
+
+  const sendAlert = async () => {
+    try {
+      const body = `I am in problem, My current location is this https://www.google.com/maps/search/?api=1&query=${latitude},${longitude} please help me, for more details move here https://www.google.com`;
+      await dispatch(sendMsg(body));
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <View style={styles.helplineContainer}>
@@ -17,7 +52,6 @@ const Helpline = ({navigation}) => {
         <View onPress={sendAlert} >
           <Text>In case of emergency, Shake the Device</Text>
         </View>
-
       </View>
     </View>
   );

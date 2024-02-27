@@ -10,7 +10,6 @@ const saveContacts = async (req, res) => {
       lastName: lastName || "",
       phoneNumber: phoneNumber || "",
     };
-
     const savedContact = new Contact(contactData);
 
     await savedContact.save();
@@ -31,4 +30,15 @@ const getContacts = async (req, res) => {
   }
 };
 
-module.exports = { saveContacts, getContacts };
+const deleteContact = async (req, res) => {
+  const { id } = req.params;
+  try {
+    await Contact.findByIdAndDelete(id);
+    res.status(200).json({ message: "Contact Deleted Successfully" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+module.exports = { saveContacts, getContacts,deleteContact };
