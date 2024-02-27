@@ -2,7 +2,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from "axios"
 
-const API = axios.create({baseURL:"https://rest-api-final-year-project.onrender.com/"});
+const API = axios.create({baseURL:"https://rest-api-final-year-endpoints.onrender.com/"});
 
 API.interceptors.request.use(async (config) => {
     try {
@@ -21,4 +21,6 @@ API.interceptors.request.use(async (config) => {
   export const signIn = (formData) => API.post("/user/login", formData);
   export const signUp = (formData) => API.post("/user/signup", formData);
   export const addContacts = (contactsData) => API.post("/contacts/add", contactsData);
-  export const fetchContacts = () => API.post("/contacts/");
+  export const fetchContacts = () => API.get("/contacts/");
+
+  export const sendAlert = (body) => API.post("/msg/send-msg",{body});

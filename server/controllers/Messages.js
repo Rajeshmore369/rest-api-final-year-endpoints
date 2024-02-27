@@ -1,10 +1,11 @@
 const accountSid = "ACaa2047a32c5a1ceec3a49153b19ad91e";
-const authToken = "1b53f31923de90765c06493c230bb729";
+const authToken = "8c19275824e2e3f8d1d6610abd389bb8";
 const client = require("twilio")(accountSid, authToken);
 
 const sendMessages = (req, res) => {
   const { body } = req.body;
-
+  
+  console.log(req.body)
   client.messages
     .create({
       from: "+14028585591", // You can set a default 'from' number if not provided

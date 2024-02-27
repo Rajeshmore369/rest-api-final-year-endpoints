@@ -1,47 +1,20 @@
-import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
-import { useSelector } from 'react-redux';
-import { useNavigation } from "@react-navigation/native";
+import { Text, View, StatusBar } from "react-native";
+import SafetyScreen from "../components/home/safety/safetyScreen";
+import FeatureScreen from "../components/home/features/featureScreen";
+import Helpline from "../components/home/helpline/helpline";
 
-const HomeScreen = () => {
-  const authData = useSelector((state) => state.auth.authData);
-
-  useEffect(() => {
-    console.log('Fetched Auth Data:', authData);
-  }, [authData]);
-  console.log(authData?.result?.email)
-
-  const navigation = useNavigation();
-
-  const goToSecondComponent = () => {
-    navigation.navigate("Avez");
-  };
-  return (
-    <View style={styles.container}>
-      {authData && authData.result ? (
+const HomeScreen = ({navigation}) =>{
+    return(
         <>
-          <Text style={styles.text}>Welcome, {authData.result.email}!</Text>
+        <StatusBar
+        backgroundColor="#c83564" // Change the background color of the status bar
+        barStyle="light-content" // Change the text color of the status bar (light/dark)
+      />
+        <FeatureScreen/>
+        <SafetyScreen/>
+        <Helpline navigation={navigation} />
         </>
-      ) : (
-        <>
-        <Text style={styles.text}>User data not found.</Text>
-        <Button title="Go to Auth Component" onPress={goToSecondComponent} />
-        </>
-      )}
-    </View>
-  );
+    )
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  text: {
-    fontSize: 18,
-    marginBottom: 10,
-  },
-});
 
 export default HomeScreen;

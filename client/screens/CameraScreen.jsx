@@ -1,9 +1,8 @@
-import React from 'react'
-import { Text } from 'react-native'
+import React from "react";
+import { Text, View } from "react-native";
+import PhotoCaptureComponent from "../components/common/PhotoCaptureComponent";
 const CameraScreen = () => {
-  return (
-    <Text>CameraScreen</Text>
-  )
-}
+  return <PhotoCaptureComponent />;
+};
 
-export default CameraScreen
+export default CameraScreen;

@@ -16,6 +16,7 @@ const AppNavigator = () => {
             borderBottomWidth: 2, // Change this to the desired border width
           },
         }}
+        style={{ marginTop: 20 }}
       >
         <Tab.Screen name="Imported Contacts" component={ImportContactScreen} />
         <Tab.Screen name="Saved Contacts" component={SavedContactsScreen} />

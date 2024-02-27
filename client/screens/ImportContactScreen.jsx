@@ -10,8 +10,8 @@ import {
 } from "react-native";
 import * as Contacts from "expo-contacts";
 import { useDispatch } from "react-redux";
-import { useNavigation } from "@react-navigation/native";
 import { addContacts } from "../contexts/actions/contact";
+
 const ImportContactScreen = () => {
   const [contacts, setContacts] = useState([]);
   const [error, setError] = useState(undefined);
@@ -20,7 +20,6 @@ const ImportContactScreen = () => {
   const dispatch = useDispatch();
   const firstName = selectedContact?.firstName || "";
   const lastName = selectedContact?.lastName || "";
-  // firstName, lastName, phoneNumber
   let phoneNumber = "";
   if (selectedContact && selectedContact.phoneNumbers) {
     const phoneNumbers = selectedContact.phoneNumbers.map(
@@ -34,8 +33,6 @@ const ImportContactScreen = () => {
     lastName: lastName,
     phoneNumber: phoneNumber,
   };
-  
-  // console.log(contactObject);
 
   const fetchContacts = async () => {
     try {
@@ -61,40 +58,17 @@ const ImportContactScreen = () => {
     }
   };
 
-  const sendAlert = async () => {
-    if (!selectedContact) {
-      Alert.alert(
-        "No Contact Selected",
-        "Please select a contact before sending an alert"
-      );
-      return;
-    }
-
+  const saveContacts = async () => {
     try {
       await dispatch(addContacts(contactObject));
-      Alert.alert(
-        "Contact Added",
-        "Selected contact has been added to the database"
-      );
+  
     } catch (error) {
       console.error("Error adding contact to the database:", error);
-      Alert.alert("Error", "Failed to add the contact to the database");
     }
-    // Store the selected contact in another hook or perform any other action with it
-    // Example: setAnotherHook(selectedContact);
-
-    // Rest of your SMS sending logic...
-
-    // Display alert when sending is initiated
-    Alert.alert(
-      "Sending Alert",
-      `Message is being sent to ${selectedContact.firstName} ${selectedContact.lastName}`
-    );
   };
 
   const addContactsdb = async (item) => {
     setSelectedContact(item);
-    console.log(contactObject);
     await dispatch(addContacts(contactObject));
   };
 
@@ -124,11 +98,11 @@ const ImportContactScreen = () => {
       <StatusBar barStyle="dark-content" backgroundColor="#c83564" />
       <View style={styles.buttonContainer}>
         <TouchableOpacity
-          onPress={contactsFetched ? sendAlert : fetchContacts}
+          onPress={contactsFetched ? saveContacts : fetchContacts}
           style={[styles.button, { backgroundColor: "#c83564" }]}
         >
           <Text style={styles.buttonText}>
-            {contactsFetched ? "Checkout saved contacts" : "Import Contacts"}
+            {contactsFetched ? "Save the Selected contacts" : "Import Contacts"}
           </Text>
         </TouchableOpacity>
       </View>
@@ -180,7 +154,7 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   selectedCard: {
-    backgroundColor: "#c0c0c0", // Customize the background color for selected card
+    backgroundColor: "#FFD9EB", // Light pink color for selected card
   },
   contactName: {
     fontSize: 18,
