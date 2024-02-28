@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import {
   Card,
   Avatar,
@@ -15,27 +15,18 @@ import {
   MailOutlined,
   EyeOutlined,
 } from "@ant-design/icons";
-
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAlert } from "../context/actions/alert";
 const { Text, Title } = Typography;
 
 const Alert = () => {
-  const userData = {
-    _id: "65df4c4b9ba21de587b7f6d1",
-    fullName: "test",
-    home: "Pune",
-    work: "Pune",
-    mobile: "9890562214",
-    email: "test@gmail.com",
-    location: "City, Country",
-    numberPlate:
-      "https://res.cloudinary.com/diiljsias/image/upload/v1709138265/images/d6ydq2uwld0q0m4drkmf.jpg",
-    surroundingImages: [
-      "https://res.cloudinary.com/diiljsias/image/upload/v1709138265/images/d6ydq2uwld0q0m4drkmf.jpg",
-      "https://res.cloudinary.com/diiljsias/image/upload/v1709138265/images/d6ydq2uwld0q0m4drkmf.jpg",
-      "https://res.cloudinary.com/diiljsias/image/upload/v1709138265/images/d6ydq2uwld0q0m4drkmf.jpg",
-      "https://res.cloudinary.com/diiljsias/image/upload/v1709138265/images/d6ydq2uwld0q0m4drkmf.jpg",
-    ],
-  };
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchAlert("65df4c4b9ba21de587b7f6d1"));
+  }, [dispatch]);
+  const userData = useSelector((state) => state.alert[0]);
+  console.log(userData);
+
 
   const websiteStatus = "online";
 
@@ -83,7 +74,7 @@ const Alert = () => {
         <Col xs={24} sm={24} md={12} lg={12} xl={12}>
           <Title level={4}>Surrounding Images:</Title>
           <div className="gallery">
-            {userData.surroundingImages.map((image, index) => (
+            {userData.images.map((image, index) => (
               <div
                 key={index}
                 className="image"

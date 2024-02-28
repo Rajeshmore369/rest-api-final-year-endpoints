@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Card,
   Avatar,
@@ -14,38 +14,26 @@ import {
   PhoneOutlined,
   MailOutlined,
 } from "@ant-design/icons";
-import profile from "../assets/profile.png"
-
+import profile from "../assets/profile.png";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAlert } from "../context/actions/alert";
 const { Text, Title } = Typography;
 
 const Alert = () => {
-  const userData = {
-    _id: "65df4c4b9ba21de587b7f6d1",
-    fullName: "test",
-    home: "Pune",
-    work: "Pune",
-    mobile: "9890562214",
-    email: "test@gmail.com",
-    location: "City, Country",
-    numberPlate:
-      "https://res.cloudinary.com/diiljsias/image/upload/v1709138265/images/d6ydq2uwld0q0m4drkmf.jpg",
-    surroundingImages: [
-      "https://res.cloudinary.com/diiljsias/image/upload/v1709138265/images/d6ydq2uwld0q0m4drkmf.jpg",
-      "https://res.cloudinary.com/diiljsias/image/upload/v1709138265/images/d6ydq2uwld0q0m4drkmf.jpg",
-      "https://res.cloudinary.com/diiljsias/image/upload/v1709138265/images/d6ydq2uwld0q0m4drkmf.jpg",
-      "https://res.cloudinary.com/diiljsias/image/upload/v1709138265/images/d6ydq2uwld0q0m4drkmf.jpg",
-    ],
-  };
-
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchAlert("65df4c4b9ba21de587b7f6d1"));
+  }, [dispatch]);
+  const userData = useSelector((state) => state.alert[0]);
+  console.log(userData);
   const websiteStatus = "online";
-
 
   return (
     <Card
       style={{ margin: "1rem", width: "98%" }}
       className="custom-card" // Add a custom class for styling
       extra={
-        <Badge
+        <Badge 
           status={websiteStatus === "online" ? "success" : "error"}
           text={websiteStatus.toUpperCase()}
         />
@@ -58,7 +46,7 @@ const Alert = () => {
         <Col xs={24} sm={24} md={16} lg={16} xl={16}>
           <Title level={3}>{userData.fullName}</Title>
           <Text type="secondary">
-            <EnvironmentOutlined /> {userData.location}
+            <EnvironmentOutlined /> {userData.home}
           </Text>
           <br />
           <Text type="secondary">

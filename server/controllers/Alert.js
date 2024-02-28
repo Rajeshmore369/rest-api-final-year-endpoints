@@ -56,13 +56,13 @@ const getAlertsByUserId = async (req, res) => {
     try {
       // Extract user ID from request parameters
       const userId = req.params.userId;
-  
+      
       // Check if the user with the provided ID exists
       const user = await User.findById(userId);
       if (!user) {
         return res.status(404).json({ error: 'User not found' });
       }
-  
+      
       // Find alerts associated with the user ID
       const alerts = await Alert.find({ user: userId });
   

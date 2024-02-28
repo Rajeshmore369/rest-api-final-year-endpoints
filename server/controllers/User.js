@@ -112,8 +112,9 @@ const updateMe = async (req, res) => {
     if (req.body.numberPlate) user.numberPlate = req.body.numberPlate;
 
     // Update images if provided
-    if (req.body.images) {
-      user.images = req.body.images;
+    if (req.body.images && req.body.images.length > 0) {
+      // If user already has images, append new ones; otherwise, assign the new images
+      user.images = user.images ? [...user.images, ...req.body.images] : req.body.images;
     }
     const imageArray = req.body.images || [];
     imageArray.map((item,index)=>{
