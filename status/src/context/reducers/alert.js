@@ -5,7 +5,7 @@ export default (alerts = [], action) => {
     case CREATE_ALERT:
       return [...alerts, action.payload];
     case GET_ALERT:
-      return action.payload;
+      return [action.payload];
     default:
       return alerts;
   }

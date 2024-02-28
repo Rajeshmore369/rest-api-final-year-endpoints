@@ -24,11 +24,6 @@ const alertSchema = new Schema({
   home: String,
   work: String,
   mobile: String,
-  email: {
-    type: String,
-    required: true,
-    unique: false,
-  },
   password: {
     type: String,
     required: true,

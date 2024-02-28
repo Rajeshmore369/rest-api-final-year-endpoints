@@ -19,14 +19,12 @@ import LocationScreen from "./LocationScreen";
 import {useParams} from 'react-router-dom'
 const { Text, Title } = Typography;
 
-const Alert = () => {
+const Alert = ({userData, index}) => {
   const dispatch = useDispatch();
   const {id} = useParams();
   useEffect(() => {
     dispatch(fetchAlert(id));
   }, [dispatch]);
-  const userData = useSelector((state) => state.alert[0]);
-  console.log(userData);
 
   const websiteStatus = "online";
 
@@ -40,9 +38,10 @@ const Alert = () => {
 
   return (
     <Card
-      style={{ margin: "1rem", width: "98%" }}
-      className="custom-card" // Add a custom class for styling
+    style={{ margin: "1rem", width: "98%" }}
+    className="custom-card" // Add a custom class for styling
     >
+      <h1>Alert : {index}</h1>
       <Row gutter={[16, 16]}>
 
         <Col xs={24} sm={24} md={12} lg={12} xl={12}>

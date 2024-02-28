@@ -19,15 +19,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchAlert } from "../context/actions/alert";
 import {useParams} from 'react-router-dom'
 const { Text, Title } = Typography;
-const Alert = () => {
-  const {id} = useParams();
-  console.log(id);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchAlert((id)));
-  }, [dispatch]);
-  const userData = useSelector((state) => state.alert[0]);
-  console.log(userData);
+const Profile = ({userData}) => {
+
   const websiteStatus = "online";
 
   return (
@@ -64,4 +57,4 @@ const Alert = () => {
   );
 };
 
-export default Alert;
+export default Profile;
