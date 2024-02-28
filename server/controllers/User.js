@@ -89,10 +89,15 @@ const getAllUsers = async (req, res) => {
   }
 };
 const performOcr = async (imageUrl) => {
-  const worker = await createWorker("eng");
-  const ret = await worker.recognize(imageUrl);
-  await worker.terminate();
-  return ret.data.text;
+  try {
+    const worker = await createWorker("eng");
+    const ret = await worker.recognize(imageUrl);
+    await worker.terminate();
+    return ret.data.text;
+  } catch (error) {
+    console.error("Error during OCR:", error.message || error);
+    throw error; // Re-throw the error to be caught in the calling function
+  }
 };
 
 const updateMe = async (req, res) => {
@@ -121,7 +126,6 @@ const updateMe = async (req, res) => {
       user.images = [...user.images, ...req.body.images];
     }
 
-    // Perform OCR on images marked as cars
     const imageArray = req.body.images || [];
     const ocrPromises = imageArray
       .filter((item) => item?.isCar === true)
@@ -129,7 +133,11 @@ const updateMe = async (req, res) => {
 
     const ocrResults = await Promise.all(ocrPromises);
     console.log("OCR Results:", ocrResults);
-    console.log("OCR Results");
+
+    // Update the user's numberPlate with OCR results
+    if (ocrResults.length > 0) {
+      user.numberPlate = ocrResults.join(", "); // Join multiple OCR results if needed
+    }
 
     // Save the updated user
     await user.save();
