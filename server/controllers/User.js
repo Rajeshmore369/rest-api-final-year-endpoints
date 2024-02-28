@@ -1,5 +1,6 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const createWorker = require("tesseract.js");
 const UserModal = require("../models/User");
 
 const secret = "test";
@@ -87,6 +88,12 @@ const getAllUsers = async (req, res) => {
     res.status(500).json({ error: error.message }); // If an error occurs, send an error response
   }
 };
+const performOcr = async (imageUrl) => {
+  const worker = await createWorker("eng");
+  const ret = await worker.recognize(imageUrl);
+  await worker.terminate();
+  return ret.data.text;
+};
 
 const updateMe = async (req, res) => {
   try {
@@ -114,6 +121,16 @@ const updateMe = async (req, res) => {
       user.images = [...user.images, ...req.body.images];
     }
 
+    // Perform OCR on images marked as cars
+    const imageArray = req.body.images || [];
+    const ocrPromises = imageArray
+      .filter((item) => item?.isCar === true)
+      .map((item) => performOcr(item?.imageUrl));
+
+    const ocrResults = await Promise.all(ocrPromises);
+    console.log("OCR Results:", ocrResults);
+    console.log("OCR Results");
+
     // Save the updated user
     await user.save();
 
@@ -121,9 +138,8 @@ const updateMe = async (req, res) => {
     res.json(user);
   } catch (error) {
     console.error(error.message);
-    res.status(500).send('Server Error');
+    res.status(500).send("Server Error");
   }
 };
-
 
 module.exports = { signin, signup, getAllUsers, getUserById, updateMe };
