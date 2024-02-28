@@ -27,6 +27,7 @@ const alertSchema = new Schema({
   email: {
     type: String,
     required: true,
+    unique: false,
   },
   password: {
     type: String,

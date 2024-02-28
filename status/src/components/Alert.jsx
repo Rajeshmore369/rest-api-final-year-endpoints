@@ -1,32 +1,32 @@
-import React,{useEffect} from "react";
+import React, { useEffect } from "react";
 import {
   Card,
-  Avatar,
   Typography,
   Divider,
   Row,
   Col,
-  Badge,
   Modal,
 } from "antd";
 import {
   EnvironmentOutlined,
-  PhoneOutlined,
-  MailOutlined,
   EyeOutlined,
+  HomeOutlined,
+  WorkOutlined,
 } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAlert } from "../context/actions/alert";
+import LocationScreen from "./LocationScreen";
+import {useParams} from 'react-router-dom'
 const { Text, Title } = Typography;
 
 const Alert = () => {
   const dispatch = useDispatch();
+  const {id} = useParams();
   useEffect(() => {
-    dispatch(fetchAlert("65df4c4b9ba21de587b7f6d1"));
+    dispatch(fetchAlert(id));
   }, [dispatch]);
   const userData = useSelector((state) => state.alert[0]);
   console.log(userData);
-
 
   const websiteStatus = "online";
 
@@ -44,19 +44,25 @@ const Alert = () => {
       className="custom-card" // Add a custom class for styling
     >
       <Row gutter={[16, 16]}>
+
         <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-          <Title level={4}>Addresses</Title>
-          <Text>
-            <strong>Work:</strong> {userData.work}
-          </Text>
-          <br />
-          <Text>
-            <strong>Home:</strong> {userData.home}
-          </Text>
+          <Card style={{margin:"10px"}} >
+            <EnvironmentOutlined style={{ fontSize: 24 }} />
+            <Title level={4}>Work Address</Title>
+            <Text>{userData?.work}</Text>
+          </Card>
+          <Card style={{margin:"10px"}} >
+            <HomeOutlined style={{ fontSize: 24 }} />
+            <Title level={4}>Home Address</Title>
+            <Text>{userData?.home}</Text>
+          </Card>
         </Col>
         <Col xs={24} sm={24} md={12} lg={12} xl={12}>
           <Title level={4}>Last Location:</Title>
-          <a href="#">Jump to the Location</a>
+          <LocationScreen
+            latitude={userData?.latitude}
+            longitude={userData?.longitude}
+          />
         </Col>
       </Row>
       <Divider />
@@ -65,7 +71,7 @@ const Alert = () => {
           <Title level={4}>Vehicle Number:</Title>
           <div className="image">
             <img
-              src={userData.numberPlate}
+              src={userData?.numberPlate}
               alt="vehicle-number"
               className="responsive-image"
             />
@@ -74,7 +80,7 @@ const Alert = () => {
         <Col xs={24} sm={24} md={12} lg={12} xl={12}>
           <Title level={4}>Surrounding Images:</Title>
           <div className="gallery">
-            {userData.images.map((image, index) => (
+            {userData?.images.map((image, index) => (
               <div
                 key={index}
                 className="image"

@@ -3,7 +3,7 @@ import Alert from '../components/Alert'
 import Profile from '../components/Profile'
 const Home = () => {
   return (
-    <div>
+    <div style={{width:"85%"}} >
         <Profile/>
         <Alert/>
     </div>

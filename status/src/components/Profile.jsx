@@ -17,12 +17,14 @@ import {
 import profile from "../assets/profile.png";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAlert } from "../context/actions/alert";
+import {useParams} from 'react-router-dom'
 const { Text, Title } = Typography;
-
 const Alert = () => {
+  const {id} = useParams();
+  console.log(id);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchAlert("65df4c4b9ba21de587b7f6d1"));
+    dispatch(fetchAlert((id)));
   }, [dispatch]);
   const userData = useSelector((state) => state.alert[0]);
   console.log(userData);
@@ -44,17 +46,17 @@ const Alert = () => {
           <Avatar size={128} src={profile} />
         </Col>
         <Col xs={24} sm={24} md={16} lg={16} xl={16}>
-          <Title level={3}>{userData.fullName}</Title>
+          <Title level={3}>{userData?.fullName}</Title>
           <Text type="secondary">
-            <EnvironmentOutlined /> {userData.home}
+            <EnvironmentOutlined /> {userData?.home}
           </Text>
           <br />
           <Text type="secondary">
-            <PhoneOutlined /> {userData.mobile}
+            <PhoneOutlined /> {userData?.mobile}
           </Text>
           <br />
           <Text type="secondary">
-            <MailOutlined /> {userData.email}
+            <MailOutlined /> {userData?.email}
           </Text>
         </Col>
       </Row>

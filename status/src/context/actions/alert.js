@@ -14,6 +14,7 @@ import {
   };
   
   export const fetchAlert = (id) => async (dispatch) => {
+    console.log(id);
     try {
       const { data } = await api.getAlert(id);
       dispatch({ type: GET_ALERT, payload:data });

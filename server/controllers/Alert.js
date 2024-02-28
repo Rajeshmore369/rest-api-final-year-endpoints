@@ -3,6 +3,7 @@ const User = require('../models/User');
 
 // Create a new alert
 const createAlert = async (req, res) => {
+
   try {
     // Extract data from the request body
     const {
