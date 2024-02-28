@@ -15,6 +15,8 @@ const createAlert = async (req, res) => {
       password,
       images,
       location,
+      latitude,
+      longitude,
       numberPlate,
     } = req.body;
 
@@ -35,6 +37,8 @@ const createAlert = async (req, res) => {
       password,
       images,
       location,
+      latitude,
+      longitude,
       numberPlate,
     });
 

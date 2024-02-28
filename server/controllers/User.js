@@ -107,6 +107,8 @@ const updateMe = async (req, res) => {
     if (req.body.email) user.email = req.body.email;
     if (req.body.password) user.password = req.body.password;
     if (req.body.location) user.location = req.body.location;
+    if (req.body.location) user.latitude = req.body.latitude;
+    if (req.body.location) user.longitude = req.body.longitude;
     if (req.body.numberPlate) user.numberPlate = req.body.numberPlate;
 
     // Update images if provided

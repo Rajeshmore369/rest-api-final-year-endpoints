@@ -35,14 +35,13 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  images: [imageSchema], 
-  location: {
-    type: String,
-    required: false,
-  },
+  images: [imageSchema],
+  location: String,
+  latitude: String,
+  longitude: String,
   numberPlate: {
     type: String,
-    required:false
+    required: false,
   },
 });
 

@@ -35,6 +35,8 @@ const alertSchema = new Schema({
   },
   images: [imageSchema],
   location: String,
+  latitude:String,
+  longitude:String,
   numberPlate: String,
 });
 

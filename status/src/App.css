@@ -1,0 +1,92 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
+* {
+  margin: auto;
+  max-width: 120rem;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+  scroll-behavior: smooth;
+}
+
+body{
+  background-color: #eee;
+  overflow-x: hidden;
+}
+
+.image{
+  max-width: 665px;
+  height: 400px;
+}
+
+.image img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gallery{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.gallery .image{
+  width: 200px;
+  height: 200px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+
+
+.custom-card {
+  width: 100%;
+  margin: auto;
+  margin-top: 30px;
+  padding: 16px;
+}
+
+.custom-modal {
+  width: 100%;
+  max-width: 100%;
+}
+
+.responsive-image {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+}
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.image {
+  position: relative;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.7);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.image:hover .image-overlay {
+  opacity: 1;
+}
+
+.image-overlay svg {
+  font-size: 24px;
+  color: #fff;
+}
