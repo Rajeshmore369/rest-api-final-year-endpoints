@@ -2,6 +2,17 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
+const imageSchema = new Schema({
+  imageUrl: {
+    type: String,
+    required: true,
+  },
+  isCar: {
+    type: Boolean,
+    required: true,
+  },
+});
+
 const userSchema = new Schema({
   fullName: {
     type: String,
@@ -23,6 +34,15 @@ const userSchema = new Schema({
   password: {
     type: String,
     required: true,
+  },
+  images: [imageSchema], 
+  location: {
+    type: String,
+    required: false,
+  },
+  numberPlate: {
+    type: String,
+    required:false
   },
 });
 

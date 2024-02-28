@@ -8,4 +8,5 @@ export const LOGOUT = 'LOGOUT';
 export const UPDATE_DETAILS = 'UPDATE_DETAILS';
 export const ADD_CONTACTS = 'ADD_CONTACTS';
 export const FETCH_CONTACTS = 'FETCH_CONTACTS';
+export const DELETE_CONTACT = 'DELETE_CONTACT';
 export const SEND_MESSAGES = 'SEND_MESSAGES';

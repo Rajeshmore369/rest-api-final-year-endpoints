@@ -7,4 +7,5 @@ userRouter.post("/login", userController.signin);
 userRouter.post("/signup", userController.signup);
 userRouter.get("/:userId", userController.getUserById);
 userRouter.get("/", userController.getAllUsers);
+userRouter.put("/:userId",userController.updateMe);
 module.exports = userRouter;

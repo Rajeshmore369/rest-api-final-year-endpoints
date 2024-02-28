@@ -1,5 +1,5 @@
 import * as api from "../api";
-import { ADD_CONTACTS, FETCH_CONTACTS } from "../constants/actionTypes";
+import { ADD_CONTACTS, DELETE_CONTACT, FETCH_CONTACTS } from "../constants/actionTypes";
 
 export const addContacts = (contact) => async(dispatch) =>{
   try {
@@ -19,10 +19,10 @@ export const getContacts = () => async(dispatch) =>{
   }
 }
 
-export const deleteContact = () => async(dispatch) =>{
+export const deleteContact = (id) => async(dispatch) =>{
   try {
-    const { data } = await api.fetchContacts();
-    dispatch({ type: FETCH_CONTACTS, payload: data });
+    const { data } = await api.deleteContact(id);
+    dispatch({ type: DELETE_CONTACT, payload: data });
   } catch (error) {
     console.log(error);
   }

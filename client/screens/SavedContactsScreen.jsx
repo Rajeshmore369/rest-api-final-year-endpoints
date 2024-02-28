@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   View,
   FlatList,
@@ -6,7 +6,9 @@ import {
   Text,
   StyleSheet,
   Alert,
+  RefreshControl,
 } from "react-native";
+
 import { useDispatch, useSelector } from "react-redux";
 import { getContacts, deleteContact } from "../contexts/actions/contact";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -18,6 +20,13 @@ const SavedContactsScreen = () => {
   const [selectedContact, setSelectedContact] = useState(null);
   const [latitude, setLatitude] = useState(0);
   const [longitude, setLongitude] = useState(0);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    dispatch(getContacts());
+    setRefreshing(false);
+  }, [dispatch]);
   const getCurrentLocation = async () => {
     try {
       const { status } = await Location.requestForegroundPermissionsAsync();
@@ -44,7 +53,7 @@ const SavedContactsScreen = () => {
     };
   }, []);
   const message = useSelector((state) => state.messages);
-console.log(message);
+  // console.log(message);
 
   useEffect(() => {
     dispatch(getContacts());
@@ -58,6 +67,7 @@ console.log(message);
   }, [dispatch]);
 
   const handleDelete = (id) => {
+    console.log(id + "hey bhai");
     Alert.alert(
       "Delete Contact",
       "Are you sure you want to delete this contact?",
@@ -104,7 +114,7 @@ console.log(message);
         </View>
         <TouchableOpacity
           style={styles.deleteButton}
-          onPress={() => handleDelete(item.id)}
+          onPress={() => handleDelete(item._id)}
         >
           <Icon name="trash" size={15} color="#fff" />
         </TouchableOpacity>
@@ -120,6 +130,9 @@ console.log(message);
         key={(item) => item.id?.toString()}
         renderItem={renderContact}
         style={styles.contactList}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
       />
       <TouchableOpacity style={styles.alertButton} onPress={sendAlert}>
         <Text style={styles.alertButtonText}>Send Alert</Text>

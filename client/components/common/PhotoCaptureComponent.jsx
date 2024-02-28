@@ -11,7 +11,7 @@ import {
 import { Camera } from "expo-camera";
 import { shareAsync } from "expo-sharing";
 import * as MediaLibrary from "expo-media-library";
-import axios from 'axios'
+import axios from "axios";
 
 export default function PhotoCaptureComponent() {
   let cameraRef = useRef();
@@ -20,6 +20,7 @@ export default function PhotoCaptureComponent() {
   const [hasCameraPermission, setHasCameraPermission] = useState();
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
   const [photo, setPhoto] = useState();
+  const [incre,setIncre] = useState(0);
   const uploadToCloudinary = async (base64) => {
     try {
       setLoading(true);
@@ -71,7 +72,7 @@ export default function PhotoCaptureComponent() {
 
     let newPhoto = await cameraRef.current.takePictureAsync(options);
     setPhoto(newPhoto);
-
+    
     // Upload to Cloudinary
     uploadToCloudinary(newPhoto.base64);
   };
