@@ -1,6 +1,5 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const createWorker = require("tesseract.js");
 const UserModal = require("../models/User");
 
 const secret = "test";
@@ -88,24 +87,14 @@ const getAllUsers = async (req, res) => {
     res.status(500).json({ error: error.message }); // If an error occurs, send an error response
   }
 };
-const performOcr = async (imageUrl) => {
-  try {
-    const worker = await createWorker("eng");
-    const ret = await worker.recognize(imageUrl);
-    await worker.terminate();
-    return ret.data.text;
-  } catch (error) {
-    console.error("Error during OCR:", error.message || error);
-    throw error; // Re-throw the error to be caught in the calling function
-  }
-};
 
 const updateMe = async (req, res) => {
   try {
-    const { userId } = req.params;
-
+    // Get user ID from authenticated user or token
+    const {userId} = req.params; // Adjust based on your authentication method
+    // Fetch the user by ID
     const user = await UserModal.findById(userId);
-
+    // Check if the user exists
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -120,24 +109,16 @@ const updateMe = async (req, res) => {
     if (req.body.location) user.location = req.body.location;
     if (req.body.numberPlate) user.numberPlate = req.body.numberPlate;
 
-    // Update images
+    // Update images if provided
     if (req.body.images) {
-      // Concatenate the new images with the existing ones
-      user.images = [...user.images, ...req.body.images];
+      user.images = req.body.images;
     }
-
     const imageArray = req.body.images || [];
-    const ocrPromises = imageArray
-      .filter((item) => item?.isCar === true)
-      .map((item) => performOcr(item?.imageUrl));
-
-    const ocrResults = await Promise.all(ocrPromises);
-    console.log("OCR Results:", ocrResults);
-
-    // Update the user's numberPlate with OCR results
-    if (ocrResults.length > 0) {
-      user.numberPlate = ocrResults.join(", "); // Join multiple OCR results if needed
-    }
+    imageArray.map((item,index)=>{
+      if (item?.isCar === true) {
+          user.numberPlate = item.imageUrl;
+      }
+    })
 
     // Save the updated user
     await user.save();
@@ -146,7 +127,7 @@ const updateMe = async (req, res) => {
     res.json(user);
   } catch (error) {
     console.error(error.message);
-    res.status(500).send("Server Error");
+    res.status(500).send('Server Error');
   }
 };
 
