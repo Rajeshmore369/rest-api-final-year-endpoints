@@ -6,7 +6,7 @@ const createAlert = async (req, res) => {
   try {
     // Extract data from the request body
     const {
-      userId, // Assuming you provide the user ID in the request body or params
+      _id, // Assuming you provide the user ID in the request body or params
       fullName,
       home,
       work,
@@ -19,14 +19,14 @@ const createAlert = async (req, res) => {
     } = req.body;
 
     // Check if the user with the provided ID exists
-    const user = await User.findById(userId);
+    const user = await User.findById(_id);
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
 
     // Create a new alert
     const alert = new Alert({
-      user: userId,
+      user: _id,
       fullName,
       home,
       work,
