@@ -87,13 +87,13 @@ const getAllUsers = async (req, res) => {
     res.status(500).json({ error: error.message }); // If an error occurs, send an error response
   }
 };
+
 const updateMe = async (req, res) => {
   try {
-    // Get user ID from authenticated user or token
-    const {userId} = req.params; // Adjust based on your authentication method
-    // Fetch the user by ID
+    const { userId } = req.params;
+
     const user = await UserModal.findById(userId);
-    // Check if the user exists
+
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -108,9 +108,10 @@ const updateMe = async (req, res) => {
     if (req.body.location) user.location = req.body.location;
     if (req.body.numberPlate) user.numberPlate = req.body.numberPlate;
 
-    // Update images if provided
+    // Update images
     if (req.body.images) {
-      user.images = req.body.images;
+      // Concatenate the new images with the existing ones
+      user.images = [...user.images, ...req.body.images];
     }
 
     // Save the updated user
@@ -123,5 +124,6 @@ const updateMe = async (req, res) => {
     res.status(500).send('Server Error');
   }
 };
+
 
 module.exports = { signin, signup, getAllUsers, getUserById, updateMe };
