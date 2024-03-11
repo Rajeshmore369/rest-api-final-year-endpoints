@@ -1,59 +1,40 @@
 import React, { useEffect } from "react";
-import {
-  Card,
-  Avatar,
-  Typography,
-  Divider,
-  Row,
-  Col,
-  Badge,
-  Modal,
-} from "antd";
-import {
-  EnvironmentOutlined,
-  PhoneOutlined,
-  MailOutlined,
-} from "@ant-design/icons";
 import profile from "../assets/profile.png";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAlert } from "../context/actions/alert";
-import {useParams} from 'react-router-dom'
-const { Text, Title } = Typography;
-const Profile = ({userData}) => {
-
-  const websiteStatus = "online";
-
+import { useParams } from 'react-router-dom'
+const Profile = ({ userData, totalAlerts }) => {
+  console.log(userData)
   return (
-    <Card
-      style={{ margin: "1rem", width: "98%" }}
-      className="custom-card" // Add a custom class for styling
-      extra={
-        <Badge 
-          status={websiteStatus === "online" ? "success" : "error"}
-          text={websiteStatus.toUpperCase()}
-        />
-      }
-    >
-      <Row gutter={[16, 16]}>
-        <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-          <Avatar size={128} src={profile} />
-        </Col>
-        <Col xs={24} sm={24} md={16} lg={16} xl={16}>
-          <Title level={3}>{userData?.fullName}</Title>
-          <Text type="secondary">
-            <EnvironmentOutlined /> {userData?.home}
-          </Text>
-          <br />
-          <Text type="secondary">
-            <PhoneOutlined /> {userData?.mobile}
-          </Text>
-          <br />
-          <Text type="secondary">
-            <MailOutlined /> {userData?.email}
-          </Text>
-        </Col>
-      </Row>
-    </Card>
+    <section class="home section" id="home">
+      <div class="home__container container grid">
+        <div class="home__data">
+          <span class="home__greeting">Hello, I'm</span>
+          <h1 class="home__name">{userData?.fullName}</h1>
+          <h3 class="home__education"><strong>Mobile&nbsp;: &nbsp;</strong>{userData?.mobile}</h3>
+          <div class="home__buttons">
+            <a href="#" class="button button--ghost">
+              Download
+            </a>
+            <a href="#alerts" class="button">Show Alerts</a>
+          </div>
+        </div>
+
+        <div class="home__handle">
+          <img src="assets/img/perfil.png" alt="" />
+        </div>
+
+        <div class="home__social">
+          <a href="#" class="home__social-link"><i class='bx bxl-linkedin-square'></i></a>
+          <a href="#" class="home__social-link"><i class='bx bxl-instagram'></i></a>
+          <a href="#" class="home__social-link"><i class='bx bxl-facebook-circle'></i></a>
+        </div>
+        <a href="#about" class="home__scroll">
+          <i class="bx bx-mouse home__scroll-icon"></i>
+          <span class="home__scroll-name">Scroll Down</span>
+        </a>
+      </div>
+    </section>
   );
 };
 

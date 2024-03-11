@@ -16,9 +16,19 @@ const Navbar = () => {
   };
 
   return (
-    <Header className="header">
-      <div className="logo" style={{color:"#fff"}} >saveHer</div>
-    </Header>
+    <header class="header" id="header" >
+      <nav class="nav container">
+        <a href="#" class="nav__logo">Avez.</a>
+        <div class="nav__menu">
+          <ul class="nav__list">
+            <li class="nav__item"> <a href="#home" class="nav__link active-link"><i class='bx bx-home'></i></a>
+            </li>
+            <li class="nav__item"> <a href="#alerts" class="nav__link active-link"><i class='bx bx-alarm-exclamation'></i></a> </li>
+          </ul>
+        </div>
+        <i class='bx bx-moon change-theme' id="theme-button"></i>
+      </nav>
+    </header>
   );
 };
 
